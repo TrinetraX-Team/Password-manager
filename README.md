@@ -15,7 +15,7 @@
 ---
 
 ## Abstract
-With the rapid growth of online services, users are forced to manage dozens of credentials, often leading to dangerous practices like password reuse. These habits significantly increase vulnerability to brute-force attacks, credential stuffing, and account takeovers. 
+Password managers generally focuses on three main pillars: cryptographic security models, vulnerability/penetration analysis against malicious servers, and human-centric usability challenges.With the rapid growth of online services, users are forced to manage dozens of credentials, often leading to dangerous practices like password reuse. These habits significantly increase vulnerability to brute-force attacks, credential stuffing, and account takeovers. 
 
 This project presents a hardened, cross-platform password manager focused on uncompromising local security. Built on a strict zero-knowledge architecture, it ensures that sensitive data and encryption keys are never stored in plaintext or transmitted to external servers. By leveraging memory-safe systems programming (Rust) and hardware-level enclaves, this vault protects against both remote network threats and local memory-scraping malware.
 
