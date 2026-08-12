@@ -2,68 +2,200 @@
 
 <div align="center">
 
-![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)
-![Version](https://img.shields.io/badge/version-1.0.0--dev-orange?style=for-the-badge)
-![Security](https://img.shields.io/badge/Security-Zero--Knowledge-success?style=for-the-badge)
-![Rust](https://img.shields.io/badge/Core-Rust-black?style=for-the-badge&logo=rust)
-![Tauri](https://img.shields.io/badge/Framework-Tauri-FFC131?style=for-the-badge&logo=tauri)
-
-> **An enterprise-grade, zero-knowledge credential vault.** > Developed as a final-year cybersecurity project by **TrinetraX-Team**.
-
-</div>
-
----
+> A modern, zero-knowledge password manager utilizing Argon2id, AES-256-GCM, and TOTP-based authentication. Developed as a final-year cybersecurity project.
 
 ## Abstract
 Password managers generally focuses on three main pillars: cryptographic security models, vulnerability/penetration analysis against malicious servers, and human-centric usability challenges.With the rapid growth of online services, users are forced to manage dozens of credentials, often leading to dangerous practices like password reuse. These habits significantly increase vulnerability to brute-force attacks, credential stuffing, and account takeovers. 
 
-This project presents a hardened, cross-platform password manager focused on uncompromising local security. Built on a strict zero-knowledge architecture, it ensures that sensitive data and encryption keys are never stored in plaintext or transmitted to external servers. By leveraging memory-safe systems programming (Rust) and hardware-level enclaves, this vault protects against both remote network threats and local memory-scraping malware.
+This project presents the design and implementation of a secure password manager that focuses on strong local security utilizing modern cryptographic techniques. The application follows a strict **zero-knowledge security approach**, ensuring that sensitive data and encryption keys are never stored or transmitted in plaintext form.
 
 ## Key Features
-
-* **Zero-Knowledge Architecture:** The master password never leaves the host device.
-* **Advanced Key Derivation:** Utilizes Argon2id (the Password Hashing Competition winner) to derive cryptographic keys, thwarting GPU and ASIC-based cracking attempts.
-* **Military-Grade Encryption:** Local vault data is encrypted using AES-256-GCM, guaranteeing both confidentiality and tamper-evident data integrity.
-* **Multi-Factor Authentication (TOTP):** Built-in Time-Based One-Time Password generator to neutralize threats even if a credential is compromised.
-* **Hardware-Backed Biometrics:** Seamless and secure vault unlocking using OS-level Trusted Execution Environments (Secure Enclave / TPM / Touch ID).
-* **Ultra-Lightweight & Fast:** Powered by Tauri and Rust, utilizing a fraction of the memory overhead compared to traditional Electron-based managers.
+* **Advanced Key Derivation:** Utilizes **Argon2id** hashing algorithm to securely derive cryptographic keys from the master password, providing high resistance against GPU-based and side-channel attacks.
+* **Military-Grade Encryption:** All stored credentials are encrypted locally using **AES-256-GCM** to ensure confidentiality and data integrity.
+* **Zero-Knowledge Architecture:** Frontend passes sensitive data only to Rust backend via secure IPC; no plaintext secrets touch the frontend.
+* **Strict Memory Safety:** Rust's ownership model ensures sensitive variables are dropped from memory immediately after use. Zeroize crate wipes sensitive buffers.
+* **Offline-First:** All cryptography happens locally; no data transmission to external servers.
 
 ## Tech Stack
+* **Desktop Framework:** Tauri v2
+* **Frontend:** React 19 + TypeScript + Tailwind CSS
+* **Backend:** Rust
+* **Cryptography:** Argon2id + AES-256-GCM
+* **Build Tools:** Vite, npm, Cargo
 
-The architecture utilizes modern, secure, and memory-safe frameworks:
+## Prerequisites
+* **Node.js** v18+ ([install](https://nodejs.org/))
+* **Rust** ([install](https://www.rust-lang.org/learn/get-started#installing-rust))
+* **macOS/Linux/Windows** (Tauri supports all platforms)
 
-| Layer | Technology | Purpose |
-| :--- | :--- | :--- |
-| **Desktop Framework** | **Tauri** | Provides a lightweight, secure application window without bundling a vulnerable Chromium browser. |
-| **Backend Core** | **Rust** | Ensures strict memory safety and executes heavy cryptographic algorithms at bare-metal speeds. |
-| **Frontend UI** | **React.js + Tailwind CSS** | Delivers a responsive, dark-mode optimized, professional user interface. |
-| **Database** | **SQLite + SQLCipher** | Stores the encrypted vault locally, rendering it unreadable even if the host machine is physically compromised. |
-| **Cryptography** | **Argon2 & AES-GCM (Crates)** | Handles all key derivation and symmetric encryption within the secure Rust core. |
+## Installation & Setup
 
-## Security Architecture Flow
+### 1. Clone & Install Dependencies
+```bash
+git clone <repo-url>
+cd Password-manager
+npm install
+cd src-tauri && cargo build && cd ..
+```
 
-1. **Initialization:** The user inputs their Master Password into the React interface.
-2. **Key Derivation:** The password is transmitted via a secure bridge to the Rust backend, where `Argon2id` hashes it alongside a high-entropy cryptographic salt.
-3. **Decryption:** The resulting 256-bit key is used to unlock the local `SQLCipher` database via `AES-256-GCM`.
-4. **Key Wrapping (Hardware):** Upon successful authentication, the AES key is handed off to the OS Secure Enclave (e.g., Windows Hello / Touch ID).
-5. **Memory Wiping:** Rust's strict ownership model immediately drops the plaintext master password from RAM, preventing memory-scraping attacks.
-6. **Subsequent Logins:** The user authenticates via biometric scan; the OS releases the AES key back to the Rust core, unlocking the vault instantly.
+### 2. Run Development Server
+```bash
+npm run tauri dev
+```
 
----
+This starts both the React frontend and Rust backend in hot-reload mode.
 
-## Getting Started (For Developers)
+### 3. Build for Production
+```bash
+npm run tauri build
+```
 
-Because this project utilizes Rust for its secure core, specific build tools are required beyond standard Node.js environments.
+Creates platform-native binaries in `src-tauri/target/release/`.
 
-### Prerequisites
-* [Node.js](https://nodejs.org/) (v18+)
-* [Rust & Cargo](https://rustup.rs/)
-* OS-Specific Build Tools (See [Tauri Prerequisites](https://tauri.app/v1/guides/getting-started/prerequisites))
-* Git
+## Dependencies
 
-### Installation
+### Frontend (package.json)
+\`\`\`json
+{
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "@tauri-apps/api": "^2",
+    "@tauri-apps/plugin-opener": "^2"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.6.0",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4",
+    "@tauri-apps/cli": "^2",
+    "tailwindcss": "^3.4.4",
+    "postcss": "latest",
+    "autoprefixer": "latest"
+  }
+}
+\`\`\`
 
-1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/TrinetraX-Team/Password-manager.git](https://github.com/TrinetraX-Team/Password-manager.git)
-   cd Password-manager
+**Key Libraries:**
+- **React 19**: Modern declarative UI framework with hooks
+- **TypeScript**: Type-safe JavaScript for the frontend
+- **Tauri API**: IPC bridge to call Rust commands securely
+- **Tailwind CSS**: Utility-first CSS framework for styling
+
+### Backend (src-tauri/Cargo.toml)
+\`\`\`toml
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-opener = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+argon2 = "0.4"        # Argon2id key derivation
+aes-gcm = "0.10"      # AES-256-GCM encryption
+rand = "0.8"          # Cryptographically secure RNG
+base64 = "0.21"       # Base64 encoding/decoding
+zeroize = "1.6"       # Secure memory wiping
+\`\`\`
+
+**Key Crates:**
+- **tauri**: Desktop app framework and IPC runtime
+- **argon2**: GPU-resistant password hashing (Argon2id)
+- **aes-gcm**: AEAD encryption primitive (AES-256-GCM)
+- **rand**: OS-level random number generation for cryptographic nonces/salts
+- **base64**: Encode binary crypto outputs for JSON transport
+- **zeroize**: Securely erase sensitive buffers from memory
+
+## Security Architecture
+
+### Threat Model
+- **In-Scope:** Master password compromise, local vault theft, memory dumps
+- **Out-of-Scope:** Side-channel attacks on CPU, network eavesdropping (no network calls)
+
+### Encryption Flow
+1. **Master Password Input** → React frontend (plaintext in memory briefly)
+2. **Tauri IPC → Rust Backend** → Argon2id derives 256-bit key from master password
+3. **Key + Vault Data** → AES-256-GCM encrypts plaintext vault
+4. **Zeroize** → Rust clears master password and temporary buffers from memory
+5. **Return Ciphertext** → Frontend displays encrypted output only
+
+### No Plaintext Logging
+- `console.log()` is never used with passwords, keys, or hashes
+- Rust `println!` macros are restricted in production builds
+- All sensitive data is wrapped in `Zeroizing<Vec<u8>>`
+
+## Project Structure
+```
+Password-manager/
+├── src/                          # React TypeScript frontend
+│   ├── App.tsx                   # Main component (crypto test UI)
+│   ├── App.css                   # Tailwind + custom styles
+│   ├── main.tsx                  # Entry point
+│   └── vite-env.d.ts            # Vite env types
+├── src-tauri/                    # Rust backend
+│   ├── src/
+│   │   ├── lib.rs               # Tauri app runtime & command handlers
+│   │   ├── main.rs              # Platform-specific entry point
+│   │   └── crypto.rs            # Secure crypto module (Argon2id, AES-GCM)
+│   ├── Cargo.toml               # Rust dependencies
+│   └── tauri.conf.json          # Tauri app config
+├── package.json                 # Node/npm metadata
+├── tsconfig.json               # TypeScript config
+├── tailwind.config.js          # Tailwind CSS config
+├── postcss.config.js           # PostCSS + Tailwind pipeline
+└── README.md                   # This file
+```
+
+## Recommended IDE Setup
+
+- [VS Code](https://code.visualstudio.com/) 
+  - [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode)
+  - [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+  - [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+
+## API Reference
+
+### Rust Backend Commands (IPC)
+
+#### `derive_master_key`
+Derives a 256-bit key from the master password using Argon2id.
+
+**Input:** 
+```rust
+master_password: String
+```
+
+**Output:** 
+```rust
+Result<String, String>  // "salt_base64:key_base64"
+```
+
+#### `encrypt_vault_data`
+Encrypts plaintext vault using AES-256-GCM with the derived key.
+
+**Input:**
+```rust
+vault_plaintext: String,
+key_b64: String  // Base64-encoded key from derive_master_key
+```
+
+**Output:**
+```rust
+Result<String, String>  // Base64(nonce || ciphertext)
+```
+
+## Next Steps (Phase 2+)
+
+- [ ] SQLCipher integration for encrypted vault storage
+- [ ] Secure unlock screen with biometric (Touch ID on macOS)
+- [ ] Credential CRUD operations with encryption
+- [ ] Browser extension companion
+- [ ] TOTP token generation for 2FA
+- [ ] Secure key rotation and backup
+
+## License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## Disclaimer
+
+This is a developmental prototype. Do not use for storing production passwords until a full security audit is completed.

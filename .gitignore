@@ -1,38 +1,27 @@
-# Node Dependencies
-node_modules/
-npm-debug.log
-yarn-error.log
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# macOS Specific
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
 .DS_Store
-.AppleDouble
-.LSOverride
-
-# Environment Variables 
-.env
-.env.local
-.env.development
-.env.test
-.env.production
-
-# Build Directories (Electron/React outputs)
-dist/
-build/
-out/
-release/
-
-# Local Database 
-*.db
-*.sqlite
-*.sqlite3
-vault-test.json
-local-vault/
-
-# Editor
-.vscode/
-.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+vault.db
+.vscode/
+*.code-workspace/
