@@ -1,13 +1,11 @@
 # Secure Password Manager 
 
-![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-![Version](https://img.shields.io/badge/version-1.0.0--dev-orange)
-![Security](https://img.shields.io/badge/Security-Zero--Knowledge-success)
+<div align="center">
 
 > A modern, zero-knowledge password manager utilizing Argon2id, AES-256-GCM, and TOTP-based authentication. Developed as a final-year cybersecurity project.
 
 ## Abstract
-With the rapid growth of online services, users are required to manage multiple credentials, which often leads to poor password practices such as reuse of weak passwords. These practices significantly increase the risk of cyber threats including brute-force attacks, credential theft, and unauthorized access. 
+Password managers generally focuses on three main pillars: cryptographic security models, vulnerability/penetration analysis against malicious servers, and human-centric usability challenges.With the rapid growth of online services, users are forced to manage dozens of credentials, often leading to dangerous practices like password reuse. These habits significantly increase vulnerability to brute-force attacks, credential stuffing, and account takeovers. 
 
 This project presents the design and implementation of a secure password manager that focuses on strong local security utilizing modern cryptographic techniques. The application follows a strict **zero-knowledge security approach**, ensuring that sensitive data and encryption keys are never stored or transmitted in plaintext form.
 
