@@ -2,8 +2,7 @@
 
 <div align="center">
 
-> A modern, zero-knowledge password manager utilizing Argon2id, AES-256-GCM, and TOTP-based authentication. Developed as a final-year cybersecurity project.
-
+ A modern, zero-knowledge password manager utilizing Argon2id, AES-256-GCM, and TOTP-based authentication. Developed as a final-year cybersecurity project.
 ## Abstract
 Password managers generally focuses on three main pillars: cryptographic security models, vulnerability/penetration analysis against malicious servers, and human-centric usability challenges.With the rapid growth of online services, users are forced to manage dozens of credentials, often leading to dangerous practices like password reuse. These habits significantly increase vulnerability to brute-force attacks, credential stuffing, and account takeovers. 
 
