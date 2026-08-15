@@ -13,6 +13,7 @@ export function LoginPage({ onLoginSuccess, onSwitchToSignup }: LoginPageProps) 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState<"password" | "totp">("password");
+  const [showPassword, setShowPassword] = useState(false);
 
   async function handlePasswordSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -90,15 +91,21 @@ export function LoginPage({ onLoginSuccess, onSwitchToSignup }: LoginPageProps) 
   return (
     <div className="auth-container">
       <div className="auth-box">
-        <h1 className="auth-title">Log In</h1>
-        <p className="auth-subtitle">
-          Access your secure password vault
-        </p>
+        <div className="auth-header">
+          <div className="auth-icon">🔐</div>
+          <h1 className="auth-title">Welcome Back</h1>
+          <p className="auth-subtitle">
+            Access your secure password vault
+          </p>
+        </div>
 
         {step === "password" ? (
           <form onSubmit={handlePasswordSubmit} className="auth-form">
             <div className="form-group">
-              <label htmlFor="email">Email Address</label>
+              <label htmlFor="email">
+                <span className="form-label-icon">✉️</span>
+                Email Address
+              </label>
               <input
                 id="email"
                 type="email"
@@ -112,20 +119,37 @@ export function LoginPage({ onLoginSuccess, onSwitchToSignup }: LoginPageProps) 
             </div>
 
             <div className="form-group">
-              <label htmlFor="password">Master Password</label>
-              <input
-                id="password"
-                type="password"
-                value={masterPassword}
-                onChange={(e) => setMasterPassword(e.currentTarget.value)}
-                placeholder="Enter your master password"
-                required
-                disabled={loading}
-                className="form-input"
-              />
+              <label htmlFor="password">
+                <span className="form-label-icon">🔑</span>
+                Master Password
+              </label>
+              <div className="password-input-wrapper">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={masterPassword}
+                  onChange={(e) => setMasterPassword(e.currentTarget.value)}
+                  placeholder="Enter your master password"
+                  required
+                  disabled={loading}
+                  className="form-input"
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword(!showPassword)}
+                  disabled={loading}
+                  aria-label="Toggle password visibility"
+                >
+                  {showPassword ? "👁️" : "👁️‍🗨️"}
+                </button>
+              </div>
             </div>
 
-            {error && <div className="error-message">{error}</div>}
+            {error && <div className="error-message">
+              <span className="error-icon">⚠️</span>
+              {error}
+            </div>}
 
             <button
               type="submit"
@@ -138,7 +162,10 @@ export function LoginPage({ onLoginSuccess, onSwitchToSignup }: LoginPageProps) 
         ) : (
           <form onSubmit={handleTotpSubmit} className="auth-form">
             <div className="form-group">
-              <label htmlFor="totp">TOTP Code</label>
+              <label htmlFor="totp">
+                <span className="form-label-icon">📱</span>
+                TOTP Code
+              </label>
               <p className="form-hint">
                 Enter the 6-digit code from your authenticator app
               </p>
@@ -159,7 +186,10 @@ export function LoginPage({ onLoginSuccess, onSwitchToSignup }: LoginPageProps) 
               />
             </div>
 
-            {error && <div className="error-message">{error}</div>}
+            {error && <div className="error-message">
+              <span className="error-icon">⚠️</span>
+              {error}
+            </div>}
 
             <button
               type="submit"
@@ -184,16 +214,18 @@ export function LoginPage({ onLoginSuccess, onSwitchToSignup }: LoginPageProps) 
           </form>
         )}
 
-        <p className="auth-footer">
-          Don't have an account?{" "}
-          <button
-            type="button"
-            onClick={onSwitchToSignup}
-            className="btn-link"
-          >
-            Sign up
-          </button>
-        </p>
+        <div className="auth-footer">
+          <p className="footer-text">
+            Don't have an account?{" "}
+            <button
+              type="button"
+              onClick={onSwitchToSignup}
+              className="btn-link"
+            >
+              Sign up now
+            </button>
+          </p>
+        </div>
       </div>
     </div>
   );
