@@ -15,6 +15,29 @@ export function SignupPage({
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState<"weak" | "fair" | "strong" | "">("");
+
+  function calculatePasswordStrength(password: string) {
+    if (!password) {
+      setPasswordStrength("");
+      return;
+    }
+    if (password.length < 12) {
+      setPasswordStrength("weak");
+    } else if (password.length < 16 || !/[^a-zA-Z0-9]/.test(password)) {
+      setPasswordStrength("fair");
+    } else {
+      setPasswordStrength("strong");
+    }
+  }
+
+  function handlePasswordChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.currentTarget.value;
+    setMasterPassword(value);
+    calculatePasswordStrength(value);
+  }
 
   async function handleSignup(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -73,14 +96,20 @@ export function SignupPage({
   return (
     <div className="auth-container">
       <div className="auth-box">
-        <h1 className="auth-title">Create Account</h1>
-        <p className="auth-subtitle">
-          Secure your passwords with zero-knowledge encryption
-        </p>
+        <div className="auth-header">
+          <div className="auth-icon">🔑</div>
+          <h1 className="auth-title">Create Account</h1>
+          <p className="auth-subtitle">
+            Secure your passwords with zero-knowledge encryption
+          </p>
+        </div>
 
         <form onSubmit={handleSignup} className="auth-form">
           <div className="form-group">
-            <label htmlFor="email">Email Address</label>
+            <label htmlFor="email">
+              <span className="form-label-icon">✉️</span>
+              Email Address
+            </label>
             <input
               id="email"
               type="email"
@@ -94,38 +123,83 @@ export function SignupPage({
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Master Password</label>
-            <input
-              id="password"
-              type="password"
-              value={masterPassword}
-              onChange={(e) => setMasterPassword(e.currentTarget.value)}
-              placeholder="Minimum 12 characters"
-              required
-              disabled={loading}
-              className="form-input"
-            />
+            <label htmlFor="password">
+              <span className="form-label-icon">🔐</span>
+              Master Password
+            </label>
+            <div className="password-input-wrapper">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                value={masterPassword}
+                onChange={handlePasswordChange}
+                placeholder="Minimum 12 characters"
+                required
+                disabled={loading}
+                className="form-input"
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+                disabled={loading}
+                aria-label="Toggle password visibility"
+              >
+                {showPassword ? "👁️" : "👁️‍🗨️"}
+              </button>
+            </div>
+            {masterPassword && (
+              <div className="password-strength">
+                <div className="strength-bar-container">
+                  <div
+                    className={`strength-bar strength-${passwordStrength}`}
+                  />
+                </div>
+                <span className={`strength-text strength-${passwordStrength}`}>
+                  {passwordStrength === "weak" && "Weak - Add more characters"}
+                  {passwordStrength === "fair" && "Fair - Add special characters"}
+                  {passwordStrength === "strong" && "✓ Strong password"}
+                </span>
+              </div>
+            )}
             <p className="form-hint">
-              This password derives your encryption key. Use something strong and
+              💡 This password derives your encryption key. Use something strong and
               memorable.
             </p>
           </div>
 
           <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm Master Password</label>
-            <input
-              id="confirmPassword"
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.currentTarget.value)}
-              placeholder="Re-enter your password"
-              required
-              disabled={loading}
-              className="form-input"
-            />
+            <label htmlFor="confirmPassword">
+              <span className="form-label-icon">✔️</span>
+              Confirm Master Password
+            </label>
+            <div className="password-input-wrapper">
+              <input
+                id="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.currentTarget.value)}
+                placeholder="Re-enter your password"
+                required
+                disabled={loading}
+                className="form-input"
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                disabled={loading}
+                aria-label="Toggle password visibility"
+              >
+                {showConfirmPassword ? "👁️" : "👁️‍🗨️"}
+              </button>
+            </div>
           </div>
 
-          {error && <div className="error-message">{error}</div>}
+          {error && <div className="error-message">
+            <span className="error-icon">⚠️</span>
+            {error}
+          </div>}
 
           <button
             type="submit"
@@ -136,16 +210,18 @@ export function SignupPage({
           </button>
         </form>
 
-        <p className="auth-footer">
-          Already have an account?{" "}
-          <button
-            type="button"
-            onClick={onSwitchToLogin}
-            className="btn-link"
-          >
-            Log in
-          </button>
-        </p>
+        <div className="auth-footer">
+          <p className="footer-text">
+            Already have an account?{" "}
+            <button
+              type="button"
+              onClick={onSwitchToLogin}
+              className="btn-link"
+            >
+              Log in here
+            </button>
+          </p>
+        </div>
       </div>
     </div>
   );
