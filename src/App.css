@@ -116,16 +116,21 @@ body {
   backdrop-filter: blur(10px);
 }
 
+.auth-box-wide {
+  max-width: 860px;
+  padding: 2rem;
+}
+
 .auth-title {
-  margin: 1rem 0 0.5rem 0;
-  font-size: 2rem;
+  margin: 0.75rem 0 0.5rem 0;
+  font-size: clamp(2rem, 2vw + 1rem, 2.5rem);
   font-weight: 800;
   color: var(--clr-text);
   letter-spacing: -0.5px;
 }
 
 .auth-subtitle {
-  margin: 0 0 2rem 0;
+  margin: 0 0 1.5rem 0;
   font-size: 0.95rem;
   color: var(--clr-text-muted);
   line-height: 1.5;
@@ -134,6 +139,21 @@ body {
 .auth-header {
   text-align: center;
   margin-bottom: 1.5rem;
+}
+
+.auth-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(102, 126, 234, 0.18);
+  color: #4f46e5;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .auth-icon {
@@ -427,32 +447,65 @@ body {
   gap: 1.5rem;
 }
 
-.totp-section {
-  border: 1px solid var(--clr-gray-200);
-  border-radius: 0.5rem;
-  padding: 1rem;
-  background-color: var(--clr-gray-50);
+.totp-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
 }
 
-.totp-section h2 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.125rem;
-  font-weight: 600;
+.totp-panel {
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.96));
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04);
+}
+
+.totp-panel-full {
+  width: 100%;
+}
+
+.totp-panel-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.totp-step-indicator {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(52, 211, 153, 0.1);
+  color: #047857;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.totp-panel h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--clr-text);
 }
 
 .secret-box {
-  background-color: var(--clr-bg);
-  border: 1px solid var(--clr-gray-200);
-  border-radius: 0.5rem;
-  padding: 1rem;
-  margin: 1rem 0;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.06), rgba(118, 75, 162, 0.04));
+  border: 1px solid rgba(102, 126, 234, 0.18);
+  border-radius: 0.85rem;
+  padding: 1rem 1.25rem;
+  margin: 1rem 0 0;
   overflow-x: auto;
 }
 
 .secret-code {
-  font-family: "Courier New", monospace;
-  font-size: 0.875rem;
-  letter-spacing: 0.1em;
+  font-family: "SFMono-Regular", "Consolas", "Liberation Mono", monospace;
+  font-size: 0.84rem;
+  letter-spacing: 0.08em;
   word-break: break-all;
   color: var(--clr-primary);
 }
@@ -472,58 +525,97 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(248, 250, 252, 0.9);
+  border-radius: 0.9rem;
+  padding: 1rem 1.1rem;
 }
 
 .totp-checkbox label {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  align-items: flex-start;
+  gap: 0.75rem;
   cursor: pointer;
   margin: 0;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--clr-text);
+}
+
+.totp-checkbox input {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-top: 0.2rem;
+  accent-color: #4f46e5;
 }
 
 .qr-code-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
-  background-color: white;
-  border-radius: 0.5rem;
-  border: 1px solid var(--clr-gray-200);
-  margin: 1rem 0;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  margin: 1rem 0 0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .manual-setup {
-  background-color: var(--clr-bg);
-  border: 1px solid var(--clr-gray-200);
-  border-radius: 0.5rem;
+  background: rgba(248, 250, 252, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 0.85rem;
   padding: 1rem;
-  margin: 1rem 0;
+  margin: 1rem 0 0;
+  display: grid;
+  gap: 0.8rem;
 }
 
 .manual-field {
-  margin-bottom: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
   font-size: 0.875rem;
 }
 
-.manual-field:last-child {
-  margin-bottom: 0;
+.manual-field span {
+  color: var(--clr-text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .manual-field strong {
-  display: inline-block;
-  width: 100px;
   color: var(--clr-text);
+  font-weight: 600;
+  line-height: 1.5;
 }
 
 .manual-field code {
-  background-color: var(--clr-gray-100);
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  font-family: "Courier New", monospace;
-  font-size: 0.875rem;
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+  background: rgba(102, 126, 234, 0.08);
+  padding: 0.35rem 0.55rem;
+  border-radius: 0.5rem;
+  font-family: "SFMono-Regular", "Consolas", "Liberation Mono", monospace;
+  font-size: 0.8rem;
   color: var(--clr-primary);
+}
+
+@media (max-width: 700px) {
+  .auth-box-wide {
+    padding: 1.25rem;
+  }
+
+  .totp-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-header {
+    margin-bottom: 1rem;
+  }
 }
 
 .vault-container {
