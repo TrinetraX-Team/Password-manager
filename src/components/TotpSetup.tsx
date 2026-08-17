@@ -28,55 +28,82 @@ export function TotpSetup({
 
   return (
     <div className="auth-container">
-      <div className="auth-box">
-        <h1 className="auth-title">Enable Two-Factor Authentication</h1>
-        <p className="auth-subtitle">Account: {email}</p>
+      <div className="auth-box auth-box-wide">
+        <div className="auth-header">
+          <span className="auth-badge">Security setup</span>
+          <h1 className="auth-title">Enable Two-Factor Authentication</h1>
+          <p className="auth-subtitle">
+            Protect your account by linking a trusted authenticator app to your login.
+          </p>
+        </div>
 
         <div className="totp-setup">
-          <div className="totp-section">
-            <h2>Scan QR Code</h2>
-            <p className="form-hint">
-              Open your authenticator app (Google Authenticator, Authy, etc.) and scan this QR code:
-            </p>
-            <div className="qr-code-container">
-              <QRCodeSVG
-                value={qrCodeUrl}
-                size={200}
-                level="M"
-                includeMargin={true}
-              />
+          <div className="totp-layout">
+            <div className="totp-panel">
+              <div className="totp-panel-header">
+                <span className="totp-step-indicator">Step 1</span>
+                <h2>Scan QR code</h2>
+              </div>
+
+              <p className="form-hint">
+                Open your authenticator app and scan this QR code to begin setup.
+              </p>
+
+              <div className="qr-code-container">
+                <QRCodeSVG
+                  value={qrCodeUrl}
+                  size={210}
+                  level="M"
+                  includeMargin={true}
+                />
+              </div>
+            </div>
+
+            <div className="totp-panel">
+              <div className="totp-panel-header">
+                <span className="totp-step-indicator">Step 2</span>
+                <h2>Manual setup</h2>
+              </div>
+
+              <p className="form-hint">
+                If scanning is unavailable, enter this information manually in your authenticator app.
+              </p>
+
+              <div className="manual-setup">
+                <div className="manual-field">
+                  <span>Account</span>
+                  <strong>{email}</strong>
+                </div>
+                <div className="manual-field">
+                  <span>Secret</span>
+                  <code className="secret-code">{totpSecret}</code>
+                </div>
+                <div className="manual-field">
+                  <span>Type</span>
+                  <strong>Time-based (TOTP)</strong>
+                </div>
+                <div className="manual-field">
+                  <span>Digits</span>
+                  <strong>6</strong>
+                </div>
+                <div className="manual-field">
+                  <span>Time step</span>
+                  <strong>30 seconds</strong>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="totp-section">
-            <h2>Manual Setup</h2>
-            <p className="form-hint">
-              If you can't scan the QR code, enter this information manually in your authenticator app:
-            </p>
-            <div className="manual-setup">
-              <div className="manual-field">
-                <strong>Account:</strong> {email}
-              </div>
-              <div className="manual-field">
-                <strong>Secret:</strong> <code className="secret-code">{totpSecret}</code>
-              </div>
-              <div className="manual-field">
-                <strong>Type:</strong> Time-based (TOTP)
-              </div>
-              <div className="manual-field">
-                <strong>Digits:</strong> 6
-              </div>
-              <div className="manual-field">
-                <strong>Time Step:</strong> 30 seconds
-              </div>
+          <div className="totp-panel totp-panel-full">
+            <div className="totp-panel-header">
+              <span className="totp-step-indicator">Backup</span>
+              <h2>Save your secret</h2>
             </div>
-          </div>
 
-          <div className="totp-section">
-            <h2>Save Your Secret</h2>
             <p className="form-hint">
-              Save this secret code in a secure location. You'll need it if you ever need to recover access to your account.
+              Keep this recovery secret in a secure location. You may need it if you ever lose access to your authenticator app.
             </p>
+
             <div className="secret-box">
               <code className="secret-code">{totpSecret}</code>
             </div>
@@ -89,7 +116,9 @@ export function TotpSetup({
                 checked={confirmed}
                 onChange={(e) => setConfirmed(e.currentTarget.checked)}
               />
-              I have set up my authenticator app and saved the secret code securely
+              <span>
+                I have set up my authenticator app and saved the secret code securely.
+              </span>
             </label>
           </div>
 
