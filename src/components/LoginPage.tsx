@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 
 interface LoginPageProps {
@@ -15,6 +15,21 @@ export function LoginPage({ onLoginSuccess, onSwitchToSignup }: LoginPageProps) 
   const [step, setStep] = useState<"password" | "totp">("password");
   const [showPassword, setShowPassword] = useState(false);
 
+  useEffect(() => {
+    if (step === "totp") {
+      const totpInput = document.getElementById("totp");
+      if (totpInput) {
+        totpInput.focus();
+      }
+    }
+  }, [step]);
+
+  useEffect(() => {
+    if (step === "totp" && totpCode.length === 6 && !loading) {
+      void handleTotpSubmit();
+    }
+  }, [totpCode, step, loading]);
+
   async function handlePasswordSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
@@ -29,24 +44,11 @@ export function LoginPage({ onLoginSuccess, onSwitchToSignup }: LoginPageProps) 
       return;
     }
 
-    setLoading(true);
-
-    try {
-      // For now, just proceed to TOTP step
-      // In a full implementation, we'd verify the password here
-      setStep("totp");
-      setTotpCode("");
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Authentication failed"
-      );
-    } finally {
-      setLoading(false);
-    }
+    setStep("totp");
+    setTotpCode("");
   }
 
-  async function handleTotpSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function handleTotpSubmit() {
     setError("");
 
     if (totpCode.length !== 6 || !/^\d{6}$/.test(totpCode)) {
@@ -57,7 +59,6 @@ export function LoginPage({ onLoginSuccess, onSwitchToSignup }: LoginPageProps) 
     setLoading(true);
 
     try {
-      // Check if Tauri is available
       if (!(window as any).__TAURI_INTERNALS__) {
         throw new Error(
           "Tauri API not available. Make sure you're running the app with 'tauri dev' or building with 'tauri build'"
@@ -83,6 +84,7 @@ export function LoginPage({ onLoginSuccess, onSwitchToSignup }: LoginPageProps) 
             : "Login failed";
 
       setError(message);
+      setTotpCode("");
     } finally {
       setLoading(false);
     }
@@ -92,6 +94,7 @@ export function LoginPage({ onLoginSuccess, onSwitchToSignup }: LoginPageProps) 
     <div className="auth-container">
       <div className="auth-box">
         <div className="auth-header">
+          <span className="auth-step">Secure sign in</span>
           <div className="auth-icon">🔐</div>
           <h1 className="auth-title">Welcome Back</h1>
           <p className="auth-subtitle">
@@ -110,6 +113,7 @@ export function LoginPage({ onLoginSuccess, onSwitchToSignup }: LoginPageProps) 
                 id="email"
                 type="email"
                 value={email}
+                autoComplete="email"
                 onChange={(e) => setEmail(e.currentTarget.value)}
                 placeholder="your@email.com"
                 required
@@ -128,6 +132,7 @@ export function LoginPage({ onLoginSuccess, onSwitchToSignup }: LoginPageProps) 
                   id="password"
                   type={showPassword ? "text" : "password"}
                   value={masterPassword}
+                  autoComplete="current-password"
                   onChange={(e) => setMasterPassword(e.currentTarget.value)}
                   placeholder="Enter your master password"
                   required
@@ -146,21 +151,29 @@ export function LoginPage({ onLoginSuccess, onSwitchToSignup }: LoginPageProps) 
               </div>
             </div>
 
-            {error && <div className="error-message">
-              <span className="error-icon">⚠️</span>
-              {error}
-            </div>}
+            {error && (
+              <div className="error-message">
+                <span className="error-icon">⚠️</span>
+                {error}
+              </div>
+            )}
 
             <button
               type="submit"
               disabled={loading}
               className="btn-primary btn-block"
             >
-              {loading ? "Verifying..." : "Next: Enter TOTP"}
+              {loading ? "Verifying..." : "Continue"}
             </button>
           </form>
         ) : (
-          <form onSubmit={handleTotpSubmit} className="auth-form">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              void handleTotpSubmit();
+            }}
+            className="auth-form"
+          >
             <div className="form-group">
               <label htmlFor="totp">
                 <span className="form-label-icon">📱</span>
@@ -183,17 +196,20 @@ export function LoginPage({ onLoginSuccess, onSwitchToSignup }: LoginPageProps) 
                 required
                 disabled={loading}
                 className="form-input totp-input"
+                autoComplete="one-time-code"
               />
             </div>
 
-            {error && <div className="error-message">
-              <span className="error-icon">⚠️</span>
-              {error}
-            </div>}
+            {error && (
+              <div className="error-message">
+                <span className="error-icon">⚠️</span>
+                {error}
+              </div>
+            )}
 
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || totpCode.length !== 6}
               className="btn-primary btn-block"
             >
               {loading ? "Verifying..." : "Log In"}
@@ -216,7 +232,7 @@ export function LoginPage({ onLoginSuccess, onSwitchToSignup }: LoginPageProps) 
 
         <div className="auth-footer">
           <p className="footer-text">
-            Don't have an account?{" "}
+            Don't have an account? {" "}
             <button
               type="button"
               onClick={onSwitchToSignup}
