@@ -3,33 +3,33 @@
 @tailwind utilities;
 
 :root {
-  --clr-primary: #2563eb;
-  --clr-primary-light: #3b82f6;
+  --clr-primary: #0f766e;
+  --clr-primary-light: #0d9488;
   --clr-danger: #dc2626;
   --clr-success: #16a34a;
-  --clr-gray-50: #f9fafb;
-  --clr-gray-100: #f3f4f6;
-  --clr-gray-200: #e5e7eb;
-  --clr-gray-300: #d1d5db;
+  --clr-gray-50: #f8fafc;
+  --clr-gray-100: #f1f5f9;
+  --clr-gray-200: #e2e8f0;
+  --clr-gray-300: #cbd5e1;
   --clr-gray-500: #6b7280;
-  --clr-gray-700: #374151;
-  --clr-gray-900: #111827;
-  --clr-bg: #ffffff;
-  --clr-text: #111827;
-  --clr-text-muted: #6b7280;
+  --clr-gray-700: #334155;
+  --clr-gray-900: #0f172a;
+  --clr-bg: #f8fafc;
+  --clr-text: #0f172a;
+  --clr-text-muted: #64748b;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --clr-bg: #0f172a;
-    --clr-text: #f1f5f9;
-    --clr-text-muted: #cbd5e1;
-    --clr-gray-900: #1e293b;
-    --clr-gray-700: #334155;
-    --clr-gray-200: #475569;
+    --clr-text: #f8fafc;
+    --clr-text-muted: #94a3b8;
+    --clr-gray-900: #f8fafc;
+    --clr-gray-700: #cbd5e1;
+    --clr-gray-200: #334155;
     --clr-gray-100: #1e293b;
     --clr-gray-50: #0f172a;
-    --clr-gray-300: #334155;
+    --clr-gray-300: #475569;
   }
 }
 
@@ -41,9 +41,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -71,8 +69,8 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem 1rem;
+  background: #e8f1f2;
   position: relative;
   overflow: hidden;
 }
@@ -84,10 +82,7 @@ body {
   right: -10%;
   width: 500px;
   height: 500px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  filter: blur(40px);
-  z-index: 0;
+  display: none;
 }
 
 .auth-container::after {
@@ -97,20 +92,17 @@ body {
   left: -5%;
   width: 400px;
   height: 400px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 50%;
-  filter: blur(40px);
-  z-index: 0;
+  display: none;
 }
 
 .auth-box {
-  background: var(--clr-bg);
-  border-radius: 1.25rem;
-  padding: 2.5rem;
+  background: #ffffff;
+  border: 1px solid #d9e3e5;
+  border-radius: 0.75rem;
+  padding: 2.75rem;
   width: 100%;
   max-width: 420px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15),
-    0 0 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 24px 64px rgba(15, 23, 42, 0.12);
   position: relative;
   z-index: 1;
   backdrop-filter: blur(10px);
@@ -124,9 +116,9 @@ body {
 .auth-title {
   margin: 0.75rem 0 0.5rem 0;
   font-size: clamp(2rem, 2vw + 1rem, 2.5rem);
-  font-weight: 800;
+  font-weight: 700;
   color: var(--clr-text);
-  letter-spacing: -0.5px;
+  letter-spacing: 0;
 }
 
 .auth-subtitle {
@@ -147,9 +139,9 @@ body {
   justify-content: center;
   padding: 0.42rem 0.8rem;
   border-radius: 999px;
-  background: rgba(102, 126, 234, 0.08);
-  border: 1px solid rgba(102, 126, 234, 0.18);
-  color: #4338ca;
+  background: #e6f4f2;
+  border: 1px solid #b8ded9;
+  color: #0f766e;
   font-size: 0.7rem;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -163,9 +155,9 @@ body {
   justify-content: center;
   padding: 0.45rem 0.8rem;
   border-radius: 999px;
-  background: rgba(102, 126, 234, 0.1);
-  border: 1px solid rgba(102, 126, 234, 0.18);
-  color: #4f46e5;
+  background: #e6f4f2;
+  border: 1px solid #b8ded9;
+  color: #0f766e;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -173,8 +165,8 @@ body {
 }
 
 .auth-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
   display: inline-block;
   filter: drop-shadow(0 10px 18px rgba(79, 70, 229, 0.18));
 }
@@ -200,10 +192,8 @@ body {
 
 .form-group label {
   font-size: 0.875rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--clr-text);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -216,10 +206,10 @@ body {
 .form-input {
   padding: 0.875rem 1rem;
   border: 1.5px solid var(--clr-gray-200);
-  border-radius: 0.85rem;
+  border-radius: 0.5rem;
   font-size: 0.95rem;
-  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.96));
-  color: var(--clr-text);
+  background: #ffffff;
+  color: #0f172a;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: inherit;
   box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.03);
@@ -232,7 +222,7 @@ body {
 .form-input:focus {
   outline: none;
   border-color: var(--clr-primary);
-  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.16);
 }
 
 .form-input:disabled {
@@ -346,7 +336,7 @@ body {
   text-align: center;
   font-family: "Courier New", monospace;
   font-weight: 700;
-  tracking: wide;
+  letter-spacing: 0.75rem;
 }
 
 .error-message {
@@ -372,26 +362,25 @@ body {
 .btn-logout,
 .btn-link {
   padding: 0.875rem 1.25rem;
-  border-radius: 0.85rem;
+  border-radius: 0.5rem;
   border: none;
   font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: inherit;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #0f766e;
   color: white;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.2);
 }
 
 .btn-primary:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  background: #0d9488;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(15, 118, 110, 0.24);
 }
 
 .btn-primary:active:not(:disabled) {
@@ -651,13 +640,13 @@ body {
 }
 
 .vault-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #0f172a;
   color: white;
-  padding: 2.5rem 2rem;
+  padding: 1.5rem max(1.5rem, calc((100vw - 1180px) / 2));
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
   gap: 2rem;
 }
 
@@ -666,10 +655,10 @@ body {
 }
 
 .vault-header h1 {
-  margin: 0.75rem 0 0 0;
-  font-size: 2.25rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
+  margin: 0.35rem 0 0;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0;
 }
 
 .vault-header-info {
@@ -709,39 +698,33 @@ body {
 
 .vault-content {
   flex: 1;
-  padding: 2.5rem;
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .vault-overview {
   display: grid;
   grid-template-columns: repeat(2, minmax(250px, 1fr));
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .overview-card {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.05) 100%);
-  border: 1.5px solid rgba(102, 126, 234, 0.2);
-  border-radius: 1.25rem;
-  padding: 2rem;
+  background: #ffffff;
+  border: 1px solid var(--clr-gray-200);
+  border-radius: 0.625rem;
+  padding: 1.25rem 1.5rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
 }
 
 .overview-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100px;
-  height: 100px;
-  background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
-  border-radius: 50%;
-  z-index: 0;
+  display: none;
 }
 
 .overview-card > * {
@@ -750,9 +733,9 @@ body {
 }
 
 .overview-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(102, 126, 234, 0.35);
-  box-shadow: 0 12px 30px rgba(102, 126, 234, 0.15);
+  transform: translateY(-2px);
+  border-color: #99d4cf;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
 }
 
 .overview-card p {
@@ -766,23 +749,23 @@ body {
 
 .overview-card h2 {
   margin: 0;
-  font-size: 2.5rem;
-  font-weight: 800;
+  font-size: 2rem;
+  font-weight: 700;
   color: var(--clr-text);
 }
 
 .vault-panel {
-  background: var(--clr-bg);
-  border-radius: 1.25rem;
-  border: 1.5px solid var(--clr-gray-200);
-  padding: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  border-radius: 0.625rem;
+  border: 1px solid var(--clr-gray-200);
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .vault-panel:hover {
-  border-color: rgba(102, 126, 234, 0.2);
-  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.08);
+  border-color: #b8ded9;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
 }
 
 .vault-panel-header {
@@ -790,14 +773,14 @@ body {
   justify-content: space-between;
   align-items: center;
   gap: 1.5rem;
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1.5px solid var(--clr-gray-200);
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--clr-gray-200);
 }
 
 .vault-panel-header h2 {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--clr-text);
 }
@@ -810,23 +793,23 @@ body {
 .vault-form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
 }
 
 .vault-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(280px, 1fr));
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .vault-card,
 .empty-state-card {
-  background: var(--clr-bg);
-  border-radius: 1.25rem;
-  border: 1.5px solid var(--clr-gray-200);
-  padding: 1.75rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  background: #ffffff;
+  border-radius: 0.625rem;
+  border: 1px solid var(--clr-gray-200);
+  padding: 1.25rem;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
@@ -838,17 +821,17 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  height: 3px;
+  background: #0f766e;
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .vault-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(102, 126, 234, 0.3);
-  box-shadow: 0 20px 40px rgba(102, 126, 234, 0.12);
+  transform: translateY(-3px);
+  border-color: #99d4cf;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.1);
 }
 
 .vault-card:hover::before {
@@ -894,8 +877,8 @@ body {
 }
 
 .card-badge {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.1) 100%);
-  color: #667eea;
+  background: #e6f4f2;
+  color: #0f766e;
   font-size: 0.7rem;
   font-weight: 800;
   padding: 0.5rem 0.875rem;
@@ -903,7 +886,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   flex-shrink: 0;
-  border: 1px solid rgba(102, 126, 234, 0.25);
+  border: 1px solid #b8ded9;
 }
 
 .vault-card-body {
@@ -956,13 +939,13 @@ body {
 .empty-state-card {
   grid-column: 1 / -1;
   text-align: center;
-  padding: 3rem 2rem;
+  padding: 3.5rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border-style: dashed;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.04) 0%, rgba(118, 75, 162, 0.02) 100%);
+  background: #f8fafc;
 }
 
 .empty-state-icon {
@@ -1021,5 +1004,45 @@ body {
   .vault-grid,
   .vault-form-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .auth-box,
+  .totp-panel,
+  .vault-panel,
+  .overview-card,
+  .vault-card,
+  .empty-state-card {
+    color: #0f172a;
+  }
+
+  .auth-box .auth-title,
+  .auth-box .form-group label,
+  .auth-box .totp-panel h2,
+  .auth-box .setup-steps,
+  .auth-box .totp-checkbox label,
+  .vault-panel-header h2,
+  .overview-card h2,
+  .vault-card .card-title,
+  .vault-card .card-field-value,
+  .empty-state-card h2 {
+    color: #0f172a;
+  }
+
+  .auth-box .form-hint,
+  .auth-box .footer-text,
+  .overview-card p,
+  .vault-panel-header .form-hint,
+  .vault-card .card-subtitle,
+  .vault-card .card-field-label,
+  .vault-card-footer,
+  .empty-state-card p {
+    color: #64748b;
+  }
+
+  .totp-checkbox,
+  .manual-setup {
+    background: #f8fafc;
   }
 }
