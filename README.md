@@ -47,6 +47,7 @@ The project is a prototype and is not intended for production use without a form
 - Time-based one-time passwords (TOTP) for 2FA
 - Zero-knowledge architecture: secrets are derived and stored securely in the backend
 - Local-first: no cloud sync by default
+- Secure architecture used for this to prevent data league and system irregularities
 
 
 ## Quickstart
